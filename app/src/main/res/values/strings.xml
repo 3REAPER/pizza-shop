@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">pizzaShop</string>
+
+    <string name="menu">Меню</string>
+    <string name="profile">Профиль</string>
+    <string name="cart">Корзина</string>
 </resources>
