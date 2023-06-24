@@ -5,6 +5,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ru.pervukhin.pizzashop.data.database.AppDataBase
+import ru.pervukhin.pizzashop.data.database.CartDishDao
 import ru.pervukhin.pizzashop.data.database.DishDao
 import javax.inject.Singleton
 
@@ -15,6 +16,12 @@ class RoomModule(private val context: Context) {
     @Provides
     fun provideDishDao(appDataBase: AppDataBase): DishDao {
         return appDataBase.getDishDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCartDishDao(appDataBase: AppDataBase): CartDishDao {
+        return appDataBase.getCartDishDao()
     }
 
     @Singleton

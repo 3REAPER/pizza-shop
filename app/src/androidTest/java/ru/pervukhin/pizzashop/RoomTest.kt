@@ -11,16 +11,15 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.pervukhin.pizzashop.data.database.AppDataBase
-import ru.pervukhin.pizzashop.data.database.DishDao
-import ru.pervukhin.pizzashop.data.database.DishEntity
+import ru.pervukhin.pizzashop.data.database.*
 import ru.pervukhin.pizzashop.domain.Dish
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class RoomTest {
     private lateinit var db: AppDataBase
-    private lateinit var dao: DishDao
+    private lateinit var dishDao: DishDao
+    private lateinit var cartDishDao: CartDishDao
 
     @Before
     fun setUp() {
@@ -28,7 +27,8 @@ class RoomTest {
         db = Room.inMemoryDatabaseBuilder(context, AppDataBase::class.java)
             .allowMainThreadQueries()
             .build()
-        dao = db.getDishDao()
+        dishDao = db.getDishDao()
+        cartDishDao = db.getCartDishDao()
     }
 
     @After
@@ -41,8 +41,8 @@ class RoomTest {
     fun testEmptyList() {
         runBlocking {
             launch {
-                val list: List<Dish> = listOf()
-                assertEquals(list, dao.getAll())
+                val list: List<DishEntity> = listOf()
+                assertEquals(list, dishDao.getAll())
             }
         }
     }
@@ -52,8 +52,8 @@ class RoomTest {
         runBlocking {
             launch {
                 val dish1 = DishEntity(1,"test", "test", "test", 1, "test")
-                dao.insert(dish1)
-                assertEquals(dish1, dao.getAll().get(0))
+                dishDao.insert(dish1)
+                assertEquals(dish1, dishDao.getAll().get(0))
             }
         }
     }
@@ -64,9 +64,9 @@ class RoomTest {
             launch {
                 val dish1 = DishEntity(1,"test", "test", "test", 1, "test")
                 val dish2 = DishEntity(2,"test", "test", "test", 1, "test")
-                dao.insert(dish1)
-                dao.insert(dish2)
-                assertEquals(dish1, dao.getById(1))
+                dishDao.insert(dish1)
+                dishDao.insert(dish2)
+                assertEquals(dish1, dishDao.getById(1))
             }
         }
     }
@@ -77,9 +77,9 @@ class RoomTest {
             launch {
                 val dish1 = DishEntity(1,"test", "test", "test", 1, "test")
                 val dish2 = DishEntity(2,"test", "test", "test", 1, "test")
-                dao.insert(dish1)
-                dao.insert(dish2)
-                assertEquals(listOf(dish1,dish2), dao.getAll())
+                dishDao.insert(dish1)
+                dishDao.insert(dish2)
+                assertEquals(listOf(dish1,dish2), dishDao.getAll())
             }
         }
     }
@@ -92,10 +92,10 @@ class RoomTest {
                 val dish1 = DishEntity(1,"test", "test", "test", 1, "Пицца")
                 val dish2 = DishEntity(2,"test", "test", "test", 1, "test")
                 val dish3 = DishEntity(3,"test", "test", "test", 1, "Пицца")
-                dao.insert(dish1)
-                dao.insert(dish2)
-                dao.insert(dish3)
-                assertEquals(listOf(dish1,dish3), dao.getByCategory("Пицца"))
+                dishDao.insert(dish1)
+                dishDao.insert(dish2)
+                dishDao.insert(dish3)
+                assertEquals(listOf(dish1,dish3), dishDao.getByCategory("Пицца"))
             }
         }
     }
@@ -107,10 +107,10 @@ class RoomTest {
                 val list: List<Dish> = listOf()
                 val dish1 = DishEntity(1,"test", "test", "test", 1, "test")
                 val dish2 = DishEntity(2,"test", "test", "test", 1, "test")
-                dao.insert(dish1)
-                dao.insert(dish2)
-                dao.deleteAll()
-                assertEquals(list, dao.getAll())
+                dishDao.insert(dish1)
+                dishDao.insert(dish2)
+                dishDao.deleteAll()
+                assertEquals(list, dishDao.getAll())
             }
         }
     }
@@ -121,10 +121,96 @@ class RoomTest {
             launch {
                 val dish1 = DishEntity(1,"test", "test", "test", 1, "test")
                 val dish2 = DishEntity(2,"test", "test", "test", 1, "test")
-                dao.insert(dish1)
-                dao.insert(dish2)
-                dao.deleteById(1)
-                assertEquals(dish2, dao.getAll().get(0))
+                dishDao.insert(dish1)
+                dishDao.insert(dish2)
+                dishDao.deleteById(1)
+                assertEquals(dish2, dishDao.getAll().get(0))
+            }
+        }
+    }
+
+    @Test
+    fun testEmptyListCart() {
+        runBlocking {
+            launch {
+                val list: List<CartDishEntity> = listOf()
+                assertEquals(list, cartDishDao.getAll())
+            }
+        }
+    }
+
+
+    @Test
+    fun testInsertCart() {
+        runBlocking {
+            launch {
+                val cartDish = CartDishEntity(1,"test", "test", "test", 1, 1)
+                cartDishDao.insert(cartDish)
+                assertEquals(cartDish, cartDishDao.getAll().get(0))
+            }
+        }
+    }
+
+    @Test
+    fun testGetByIdCart() {
+        runBlocking {
+            launch {
+                val cartDish1 = CartDishEntity(1,"test", "test", "test", 1, 1)
+                val cartDish2 = CartDishEntity(2,"test", "test", "test", 1, 1)
+                cartDishDao.insert(cartDish1)
+                cartDishDao.insert(cartDish2)
+                assertEquals(cartDish1, cartDishDao.getById(1))
+            }
+        }
+    }
+
+    @Test
+    fun testGetAllCart() {
+        runBlocking {
+            launch {
+                val cartDish1 = CartDishEntity(1,"test", "test", "test", 1, 1)
+                val cartDish2 = CartDishEntity(2,"test", "test", "test", 1, 1)
+                cartDishDao.insert(cartDish1)
+                cartDishDao.insert(cartDish2)
+                assertEquals(listOf(cartDish1,cartDish2), cartDishDao.getAll())
+            }
+        }
+    }
+
+    @Test
+    fun testDeleteByIdCart() {
+        runBlocking {
+            launch {
+                val cartDish1 = CartDishEntity(1,"test", "test", "test", 1, 1)
+                val cartDish2 = CartDishEntity(2,"test", "test", "test", 1, 1)
+                cartDishDao.insert(cartDish1)
+                cartDishDao.insert(cartDish2)
+                cartDishDao.deleteById(1)
+                assertEquals(cartDish2, cartDishDao.getAll().get(0))
+            }
+        }
+    }
+
+    @Test
+    fun testPlusOne() {
+        runBlocking {
+            launch {
+                val cartDish = CartDishEntity(1,"test", "test", "test", 1, 1)
+                cartDishDao.insert(cartDish)
+                cartDishDao.plusOne(cartDish.id)
+                assertEquals(cartDish.count + 1, cartDishDao.getById(cartDish.id).count)
+            }
+        }
+    }
+
+    @Test
+    fun testMinusOne() {
+        runBlocking {
+            launch {
+                val cartDish = CartDishEntity(1,"test", "test", "test", 1, 2)
+                cartDishDao.insert(cartDish)
+                cartDishDao.minusOne(cartDish.id)
+                assertEquals(cartDish.count - 1, cartDishDao.getById(cartDish.id).count)
             }
         }
     }

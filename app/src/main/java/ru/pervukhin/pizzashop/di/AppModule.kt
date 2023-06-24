@@ -3,13 +3,21 @@ package ru.pervukhin.pizzashop.di
 import dagger.Module
 import dagger.Provides
 import ru.pervukhin.pizzashop.data.DishRepositoryImpl
+import ru.pervukhin.pizzashop.data.CartDishRepositoryImpl
 import ru.pervukhin.pizzashop.data.internet.InternetConnectionImpl
+import ru.pervukhin.pizzashop.domain.CartDishRepository
 import ru.pervukhin.pizzashop.domain.DishRepository
 import ru.pervukhin.pizzashop.domain.InternetConnection
 import javax.inject.Singleton
 
 @Module
 class AppModule {
+
+    @Singleton
+    @Provides
+    fun provideCartDishRepository(): CartDishRepository {
+        return CartDishRepositoryImpl()
+    }
 
     @Singleton
     @Provides
