@@ -9,6 +9,7 @@ import ru.pervukhin.pizzashop.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navigationController: NavController
+    private var selectedItem = R.id.menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,21 +19,25 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationBar: BottomNavigationView = findViewById(R.id.bottom_navigation_bar)
 
         bottomNavigationBar.setOnItemSelectedListener {
+            if (selectedItem != it.itemId)
             when (it.itemId) {
                 R.id.menu -> {
+                    selectedItem = it.itemId
                     navigationController.navigate(R.id.menuFragment)
                     return@setOnItemSelectedListener true
                 }
                 R.id.menu_profile -> {
+                    selectedItem = it.itemId
                     navigationController.navigate(R.id.profileFragment)
                     return@setOnItemSelectedListener true
                 }
                 R.id.menu_cart -> {
+                    selectedItem = it.itemId
                     navigationController.navigate(R.id.cartFragment)
                     return@setOnItemSelectedListener true
                 }
-                else -> return@setOnItemSelectedListener true
             }
+            false
         }
     }
 }

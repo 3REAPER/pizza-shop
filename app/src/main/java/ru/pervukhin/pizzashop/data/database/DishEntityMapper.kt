@@ -5,7 +5,7 @@ import ru.pervukhin.pizzashop.domain.Dish
 class DishEntityMapper {
 
     companion object{
-        fun entityToDomain(dishEntity: DishEntity): Dish {
+        private fun entityToDomain(dishEntity: DishEntity): Dish {
             return Dish(
                 dishEntity.id,
                 dishEntity.name,

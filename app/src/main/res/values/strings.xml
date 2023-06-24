@@ -4,4 +4,10 @@
     <string name="menu">Меню</string>
     <string name="profile">Профиль</string>
     <string name="cart">Корзина</string>
+
+    <string name="category_pizza">Пицца</string>
+    <string name="category_combo">Комбо</string>
+    <string name="category_dessert">Десерты</string>
+    <string name="category_beverages">Напитки</string>
+    <string name="went_wrong">Что-то пошло не так</string>
 </resources>
