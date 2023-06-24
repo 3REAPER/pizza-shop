@@ -26,6 +26,7 @@
     <style name="category_enabled" parent="Theme.pizzaShop">
         <item name="android:textColor">@color/pink</item>
         <item name="android:background">@drawable/background_category_enabled</item>
+        <item name="fontFamily">@font/sf_ui_display_bold</item>
         <item name="android:textSize">13sp</item>
     </style>
 

@@ -1,5 +1,6 @@
 package ru.pervukhin.pizzashop.presentation.menu
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,6 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.Task
 import ru.pervukhin.pizzashop.R
 import ru.pervukhin.pizzashop.domain.Dish
 import java.util.*
@@ -153,8 +153,14 @@ class MenuFragment : Fragment(), OnClickAddToCartListener {
             scrollView.smoothScrollTo(selectedCategory.x.toInt(), 0)
         }
         selectedCategory.setBackgroundResource(R.drawable.background_category_enabled)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            selectedCategory.typeface = resources.getFont(R.font.sf_ui_display_bold)
+        }
         selectedCategory.setTextColor(ResourcesCompat.getColor(resources, R.color.pink, context?.theme))
         for (tag in tags){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                tag.setTypeface(resources.getFont(R.font.sf_ui_display))
+            }
             tag.setBackgroundResource(R.drawable.background_category_disabled)
             tag.setTextColor(ResourcesCompat.getColor(resources, R.color.text_category_disabled, context?.theme))
         }
