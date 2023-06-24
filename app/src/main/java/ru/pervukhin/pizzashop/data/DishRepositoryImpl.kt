@@ -27,10 +27,17 @@ class DishRepositoryImpl: DishRepository {
     }
 
     override suspend fun getAllFromInternet(): List<Dish> {
-        DishDataMapper.listDataToDomain(dishService.getAll()).let {
-            save(it)
-            return it
+        dishService.getAll().let {
+            if (it.isSuccessful){
+                it.body()?.let { dishesData->
+                    DishDataMapper.listDataToDomain(dishesData).let { dishes ->
+                        save(dishes)
+                        return dishes
+                    }
+                }
+            }
         }
+        return listOf()
     }
 
     override suspend fun save(dishes: List<Dish>) {

@@ -32,13 +32,5 @@ class DishEntityMapper {
             }
             return result
         }
-
-        fun listDomainToEntity(dishes: List<Dish>): List<DishEntity> {
-            var result: List<DishEntity> = listOf()
-            for (dish in dishes){
-                result = result.plus(domainToEntity(dish))
-            }
-            return result
-        }
     }
 }
