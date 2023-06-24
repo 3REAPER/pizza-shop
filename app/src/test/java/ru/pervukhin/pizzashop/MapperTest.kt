@@ -11,6 +11,7 @@ import ru.pervukhin.pizzashop.data.internet.DishData
 import ru.pervukhin.pizzashop.data.internet.DishDataMapper
 import ru.pervukhin.pizzashop.domain.CartDish
 import ru.pervukhin.pizzashop.domain.Dish
+import ru.pervukhin.pizzashop.domain.DishMapper
 
 class MapperTest {
     @Test
@@ -49,5 +50,12 @@ class MapperTest {
         val dish = CartDish(1,"2", "3","4", 5,6)
         val expected = CartDishEntity(1,"2", "3","4", 5,6)
         Assert.assertEquals(expected, CartDishEntityMapper.domainToEntity(dish))
+    }
+
+    @Test
+    fun testDomainToCart(){
+        val dish = Dish(1,"2", "3","4", 5,"6")
+        val expected = CartDish(1,"2", "3","4", 5,1)
+        Assert.assertEquals(expected, DishMapper.dishToCart(dish))
     }
 }

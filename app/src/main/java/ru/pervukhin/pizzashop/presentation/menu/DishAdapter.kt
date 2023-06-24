@@ -13,7 +13,7 @@ import ru.pervukhin.pizzashop.R
 import ru.pervukhin.pizzashop.domain.Dish
 import kotlin.coroutines.coroutineContext
 
-class DishAdapter(): RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+class DishAdapter(private var listener: OnClickAddToCartListener): RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
     private var list: List<Dish> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishViewHolder {
@@ -32,6 +32,11 @@ class DishAdapter(): RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
         title.tag = dish.category
         description.text = dish.description
         price.text = "от ${dish.price} р"
+
+        price.setOnClickListener {
+            listener.onClickAddToCart(dish)
+        }
+
         Glide.with(holder.itemView).load(dish.image).into(image)
     }
 

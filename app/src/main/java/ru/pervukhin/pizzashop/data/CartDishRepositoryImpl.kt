@@ -4,7 +4,9 @@ import ru.pervukhin.pizzashop.data.database.CartDishDao
 import ru.pervukhin.pizzashop.data.database.CartDishEntityMapper
 import ru.pervukhin.pizzashop.domain.CartDish
 import ru.pervukhin.pizzashop.domain.CartDishRepository
+import ru.pervukhin.pizzashop.domain.Dish
 import ru.pervukhin.pizzashop.presentation.App
+import ru.pervukhin.pizzashop.domain.DishMapper
 import javax.inject.Inject
 
 class CartDishRepositoryImpl: CartDishRepository {
@@ -19,7 +21,8 @@ class CartDishRepositoryImpl: CartDishRepository {
         return CartDishEntityMapper.listEntityToDomain(cartDishDao.getAll())
     }
 
-    override suspend fun add(cartDish: CartDish) {
+    override suspend fun add(dish: Dish) {
+        val cartDish = DishMapper.dishToCart(dish)
         cartDishDao.insert(CartDishEntityMapper.domainToEntity(cartDish))
     }
 

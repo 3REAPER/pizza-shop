@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import ru.pervukhin.pizzashop.data.DishRepositoryImpl
+import ru.pervukhin.pizzashop.domain.CartDishRepository
 import ru.pervukhin.pizzashop.domain.Dish
 import ru.pervukhin.pizzashop.domain.DishRepository
 import ru.pervukhin.pizzashop.domain.InternetConnection
@@ -16,6 +17,8 @@ class MenuViewModel : ViewModel() {
     val liveData: MutableLiveData<DishState> = MutableLiveData()
     @Inject
     lateinit var dishRepository: DishRepository
+    @Inject
+    lateinit var cartDishRepository: CartDishRepository
     @Inject
     lateinit var internetConnection: InternetConnection
 
@@ -43,6 +46,12 @@ class MenuViewModel : ViewModel() {
                     }
                 }
             }
+        }
+    }
+
+    fun addToCart(dish: Dish){
+        viewModelScope.launch {
+            cartDishRepository.add(dish)
         }
     }
 

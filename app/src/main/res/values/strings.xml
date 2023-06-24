@@ -10,4 +10,7 @@
     <string name="category_dessert">Десерты</string>
     <string name="category_beverages">Напитки</string>
     <string name="went_wrong">Что-то пошло не так</string>
+    <string name="empty_cart">Добавьте что-нибуть в корзину</string>
+    <string name="currency">₽</string>
+    <string name="buy">Оплатить %1$s ₽</string>
 </resources>

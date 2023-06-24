@@ -17,7 +17,7 @@ import ru.pervukhin.pizzashop.R
 import ru.pervukhin.pizzashop.domain.Dish
 import java.util.*
 
-class MenuFragment : Fragment() {
+class MenuFragment : Fragment(), OnClickAddToCartListener {
     private lateinit var viewModel: MenuViewModel
     private lateinit var scrollView: HorizontalScrollView
     private lateinit var recyclerView: RecyclerView
@@ -75,7 +75,7 @@ class MenuFragment : Fragment() {
             }
         })
 
-        adapter = DishAdapter()
+        adapter = DishAdapter(this)
         recyclerView.adapter = adapter
 
         viewModel.getAll()
@@ -158,5 +158,9 @@ class MenuFragment : Fragment() {
             tag.setBackgroundResource(R.drawable.background_category_disabled)
             tag.setTextColor(ResourcesCompat.getColor(resources, R.color.text_category_disabled, context?.theme))
         }
+    }
+
+    override fun onClickAddToCart(dish: Dish) {
+        viewModel.addToCart(dish)
     }
 }

@@ -3,7 +3,7 @@ package ru.pervukhin.pizzashop.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [DishEntity::class, CartDishEntity::class], version = 1, exportSchema = false)
+@Database(entities = [DishEntity::class, CartDishEntity::class], version = 1)
 abstract class AppDataBase: RoomDatabase() {
 
     abstract fun getDishDao(): DishDao
