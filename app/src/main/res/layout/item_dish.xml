@@ -59,13 +59,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/background_price"
+
+        android:fontFamily="@font/sf_ui_display"
+        android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:text="от 345 р"
-        android:textSize="13sp"
-        android:textColor="@color/pink"
         android:textAlignment="center"
-        android:fontFamily="@font/sf_ui_display"
+        android:textColor="@color/pink"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 

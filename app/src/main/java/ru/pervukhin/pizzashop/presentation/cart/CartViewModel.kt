@@ -49,8 +49,6 @@ class CartViewModel : ViewModel() {
         }
     }
 
-
-
     fun remove(cartDish: CartDish){
         viewModelScope.launch {
             cartDishRepository.removeById(cartDish.id)
